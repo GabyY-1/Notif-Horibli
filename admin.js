@@ -7,7 +7,10 @@ document.addEventListener("DOMContentLoaded",()=>{
   const links=document.getElementById("links");
   const form=document.getElementById("notificationForm");
   const formTitle=document.querySelector("#adminPanel h2");
+  const adminSearch=document.getElementById("adminSearch");
+  const adminFilter=document.getElementById("adminFilter");
   let editingId=null;
+  let adminItems=[];
 
   if(!loginPanel||!adminPanel||!links)return;
 
@@ -74,14 +77,30 @@ document.addEventListener("DOMContentLoaded",()=>{
     removeButton.closest(".link-row").remove();
   });
 
-  async function loadAdmin(){
-    const {data,error}=await supabaseClient.from("notifications").select("*").order("created_at",{ascending:false});
-    if(error){adminNotifications.innerHTML='<div class="state">Accès administrateur requis.</div>';return}
-    if(!data.length){adminNotifications.innerHTML='<div class="state">Aucune publication.</div>';return}
+  function renderAdmin(){
+    const search=(adminSearch?.value||"").trim().toLowerCase();
+    const filter=adminFilter?.value||"all";
+    const data=adminItems.filter(item=>{
+      const text=(item.title+" "+item.description).toLowerCase();
+      if(search&&!text.includes(search))return false;
+      if(filter==="published"&&!item.published)return false;
+      if(filter==="draft"&&item.published)return false;
+      if(filter==="important"&&!item.important)return false;
+      if(["nouveaute","notification","information"].includes(filter)&&item.type!==filter)return false;
+      return true;
+    });
+    if(!data.length){adminNotifications.innerHTML='<div class="state">Aucune publication ne correspond aux filtres.</div>';return}
     adminNotifications.innerHTML=data.map(item=>{
       const itemLinks=Array.isArray(item.links)&&item.links.length?item.links:(item.link?[{label:"Ouvrir le lien",url:item.link}]:[]);
       return '<article class="card admin-card"><div class="card-top"><span class="badge">'+(labels[item.type]||"Information")+" · "+(item.published?"Publiée":"Brouillon")+(item.important?" · Important":"")+'</span><span class="date">'+formatDate(item.created_at)+'</span></div><h2>'+escapeHtml(item.title)+'</h2><p>'+escapeHtml(item.description)+'</p>'+(itemLinks.length?'<div class="card-links">'+itemLinks.map(link=>'<a class="card-link" href="'+escapeHtml(link.url)+'" target="_blank" rel="noopener">'+escapeHtml(link.label||"Ouvrir le lien")+"</a>").join("")+"</div>":"")+'<div class="card-actions"><button class="secondary" data-edit="'+item.id+'">Modifier</button><button class="danger" data-delete="'+item.id+'">Supprimer</button></div></article>';
     }).join("");
+  }
+
+  async function loadAdmin(){
+    const {data,error}=await supabaseClient.from("notifications").select("*").order("created_at",{ascending:false});
+    if(error){adminNotifications.innerHTML='<div class="state">Accès administrateur requis.</div>';return}
+    adminItems=data||[];
+    renderAdmin();
   }
 
   async function showSession(session){
@@ -140,6 +159,9 @@ document.addEventListener("DOMContentLoaded",()=>{
     message(adminMessage,wasEditing?"Publication modifiée.":"Publication créée.");
     await loadAdmin();
   });
+
+  adminSearch?.addEventListener("input",renderAdmin);
+  adminFilter?.addEventListener("change",renderAdmin);
 
   adminNotifications.addEventListener("click",async event=>{
     const editButton=event.target.closest("[data-edit]");
