@@ -112,7 +112,8 @@ document.addEventListener("DOMContentLoaded",()=>{
 
   form.addEventListener("submit",async event=>{
     event.preventDefault();
-    message(adminMessage,editingId?"Modification...":"Publication...");
+    const wasEditing=!!editingId;
+    message(adminMessage,wasEditing?"Modification...":"Publication...");
 
     const notificationLinks=[...links.querySelectorAll(".link-row")].map(row=>({label:row.querySelector(".link-label").value.trim()||"Ouvrir le lien",url:row.querySelector(".link-url").value.trim()})).filter(item=>item.url);
     const values={
@@ -136,7 +137,7 @@ document.addEventListener("DOMContentLoaded",()=>{
     }
 
     resetForm();
-    message(adminMessage,editingId?"Publication modifiée.":"Publication créée.");
+    message(adminMessage,wasEditing?"Publication modifiée.":"Publication créée.");
     await loadAdmin();
   });
 
