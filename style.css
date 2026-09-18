@@ -1,50 +1,54 @@
 *{box-sizing:border-box;margin:0;padding:0}
-body{min-height:100vh;font-family:Arial,sans-serif;background:#f5f6f8;color:#17181c;font-weight:400}
+body{min-height:100vh;font-family:Arial,sans-serif;background:#faf9f6;color:#202020;font-weight:400}
 button,input,select,textarea{font:inherit}
 button,a{transition:.2s}
-button{border:0;border-radius:10px;padding:11px 16px;background:#17181c;color:#fff;cursor:pointer}
-button:hover{opacity:.85}
+button{border:1px solid #202020;border-radius:8px;padding:10px 15px;background:#202020;color:#fff;cursor:pointer}
+button:hover{opacity:.88}
 a{text-decoration:none;color:inherit}
-.container{width:min(980px,calc(100% - 32px));margin:auto;padding:52px 0}
-.header{display:flex;justify-content:space-between;gap:24px;align-items:flex-end;margin-bottom:28px}
-.eyebrow{font-size:12px;letter-spacing:2px;color:#8a6b28}
-h1{font-size:40px;font-weight:400;margin:7px 0}
+.container{width:min(1000px,calc(100% - 32px));margin:auto;padding:60px 0}
+.header{display:flex;justify-content:space-between;gap:24px;align-items:flex-end;margin-bottom:34px}
+.eyebrow{font-size:12px;letter-spacing:2px;color:#a17c28}
+h1{font-size:40px;line-height:1.15;font-weight:400;margin:8px 0}
 h2{font-weight:400}
-.header p,.panel>p,.panel-top p{color:#777a82}
-.admin-link{border:1px solid #dddfe5;background:#fff;border-radius:10px;padding:11px 15px}
-.admin-link:hover{border-color:#bbb}
-.filters{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:18px}
-.filter{background:#fff;color:#17181c;border:1px solid #e0e1e6}
-.filter.active{background:#17181c;color:#fff;border-color:#17181c}
-.notifications{display:grid;gap:13px}
-.card,.panel{background:#fff;border:1px solid #e1e2e7;border-radius:17px;padding:22px;box-shadow:0 7px 24px rgba(20,20,30,.04)}
-.card-top{display:flex;justify-content:space-between;gap:15px;align-items:center;margin-bottom:9px}
-.badge{font-size:12px;padding:5px 9px;border-radius:20px;background:#f0f0f3}
-.important{border-color:#caa95c}
-.card h2{font-size:21px}
-.date{font-size:13px;color:#858892}
-.card p{color:#5f626b;line-height:1.55;white-space:pre-wrap}
-.card-link{display:inline-block;margin-top:15px;font-size:14px;text-decoration:underline}
-.state{padding:30px;text-align:center;color:#777a82;background:#fff;border:1px solid #e1e2e7;border-radius:17px}
+.header p,.panel>p,.panel-top p{color:#777;margin-top:7px}
+.admin-link{border:1px solid #ddd7c8;background:#fffdf8;border-radius:8px;padding:10px 15px}
+.admin-link:hover{border-color:#b99a55;background:#fff}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+.filter{background:#fff;color:#202020;border:1px solid #dedbd3}
+.filter:hover{border-color:#b99a55;opacity:1}
+.filter.active{background:#202020;color:#fff;border-color:#202020}
+.notifications{display:grid;gap:14px}
+.card,.panel{background:#fff;border:1px solid #e3e0d8;border-radius:12px;padding:23px;box-shadow:0 5px 18px rgba(40,35,25,.04)}
+.card:hover{border-color:#d2c19c}
+.card-top{display:flex;justify-content:space-between;gap:15px;align-items:center;margin-bottom:12px}
+.badge{font-size:12px;padding:5px 9px;border-radius:6px;background:#f5f2eb;color:#6d572d}
+.important{border-color:#c8a65e}
+.card h2{font-size:21px;margin-bottom:9px}
+.date{font-size:13px;color:#888}
+.card p{color:#606060;line-height:1.6;white-space:pre-wrap}
+.card-link{display:inline-block;margin-top:15px;color:#8a6928;text-decoration:underline}
+.state{padding:32px;text-align:center;color:#777;background:#fff;border:1px solid #e3e0d8;border-radius:12px}
 .panel{margin-bottom:20px}
 .hidden{display:none}
-.panel form{display:grid;gap:12px;margin-top:18px}
-input,select,textarea{width:100%;border:1px solid #dddfe5;border-radius:10px;padding:12px;background:#fff;color:#17181c;outline:none}
+.panel form{display:grid;gap:12px;margin-top:20px}
+input,select,textarea{width:100%;border:1px solid #ddd9d0;border-radius:8px;padding:12px;background:#fff;color:#202020;outline:none}
+input:focus,select:focus,textarea:focus{border-color:#b99a55}
 textarea{min-height:140px;resize:vertical}
-input:focus,select:focus,textarea:focus{border-color:#777}
 .check{display:flex;align-items:center;gap:9px;color:#555}
 .check input{width:auto}
 .panel-top{display:flex;justify-content:space-between;gap:15px;align-items:center}
-.secondary{background:#f1f1f4;color:#17181c}
-.message{min-height:20px;margin-top:12px;color:#777a82}
-.list-title{margin:28px 0 14px}
+.secondary{background:#fff;color:#202020;border-color:#ddd9d0}
+.secondary:hover{border-color:#b99a55;opacity:1}
+.message{min-height:20px;margin-top:12px;color:#777}
+.list-title{margin:30px 0 15px}
 .admin-card{position:relative}
 .card-actions{display:flex;gap:8px;margin-top:15px}
 .card-actions button{padding:8px 12px}
-.danger{background:#f1eeee;color:#8a2d2d}
+.danger{background:#fff;border-color:#decaca;color:#8a3b3b}
+.danger:hover{border-color:#b66f6f;opacity:1}
 @media(max-width:650px){
-.container{padding:35px 0}
-h1{font-size:31px}
+.container{padding:38px 0}
+h1{font-size:32px}
 .header{align-items:flex-start;flex-direction:column}
 .admin-link{width:100%;text-align:center}
 .card-top,.panel-top{align-items:flex-start;flex-direction:column}
