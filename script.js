@@ -3,6 +3,8 @@ let allNotifications=[];
 let currentFilter="all";
 
 const labels={nouveaute:"Nouveauté",notification:"Notification",information:"Information"};
+const notificationButton=document.getElementById("enableNotifications");
+const notificationStatus=document.getElementById("notificationStatus");
 
 function formatDate(value){
   return new Intl.DateTimeFormat("fr-FR",{dateStyle:"medium",timeStyle:"short"}).format(new Date(value));
@@ -24,7 +26,7 @@ function render(){
         <span class="badge">${labels[item.type]||"Information"}${item.important?" · Important":""}</span>
         <span class="date">${formatDate(item.created_at)}</span>
       </div>
-      <h2>${escapeHtml(item.title)}</h2>
+      <h2><a href="annonce.html?id=${encodeURIComponent(item.id)}">${escapeHtml(item.title)}</a></h2>
       <p>${escapeHtml(item.description)}</p>
       ${itemLinks.length?'<div class="card-links">'+itemLinks.map(link=>`<a class="card-link" href="${escapeAttr(link.url)}" target="_blank" rel="noopener">${escapeHtml(link.label||"Ouvrir le lien")}</a>`).join("")+"</div>":""}
     </article>`;
@@ -52,3 +54,47 @@ document.querySelectorAll(".filter").forEach(button=>button.addEventListener("cl
 }));
 
 load();
+
+function updateNotificationStatus(){
+  if(!notificationButton||!notificationStatus)return;
+  if(!("Notification" in window)){
+    notificationButton.disabled=true;
+    notificationStatus.textContent="Les notifications ne sont pas prises en charge par ce navigateur.";
+    return;
+  }
+  if(Notification.permission==="granted"){
+    notificationButton.textContent="Notifications activées";
+    notificationButton.disabled=true;
+    notificationStatus.textContent="Cet ordinateur peut recevoir les nouvelles annonces quand le site est ouvert.";
+  }else if(Notification.permission==="denied"){
+    notificationButton.textContent="Notifications bloquées";
+    notificationButton.disabled=true;
+    notificationStatus.textContent="Autorise les notifications dans les réglages du navigateur.";
+  }
+}
+
+async function enableNotifications(){
+  if(!("Notification" in window))return;
+  const permission=await Notification.requestPermission();
+  updateNotificationStatus();
+  if(permission==="granted"){
+    new Notification("Notif Horibli",{body:"Les notifications sont maintenant activées sur cet ordinateur."});
+  }
+}
+
+if(notificationButton){
+  notificationButton.addEventListener("click",enableNotifications);
+  updateNotificationStatus();
+}
+
+supabaseClient.channel("notif-horibli-live")
+  .on("postgres_changes",{event:"INSERT",schema:"public",table:"notifications",filter:"published=eq.true"},payload=>{
+    const item=payload.new;
+    if(!item)return;
+    allNotifications=[item,...allNotifications];
+    render();
+    if("Notification" in window&&Notification.permission==="granted"){
+      new Notification(item.title,{body:item.description.slice(0,180),tag:item.id});
+    }
+  })
+  .subscribe();
