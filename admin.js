@@ -29,16 +29,15 @@ document.addEventListener("DOMContentLoaded",()=>{
     links.appendChild(row);
   }
 
-  document.addEventListener("click",event=>{
-    if(event.target.closest("#addLink")){
-      event.preventDefault();
-      addLinkRow();
-      return;
-    }
+  const addLinkButton=document.getElementById("addLink");
+  addLinkButton.addEventListener("click",event=>{
+    event.preventDefault();
+    addLinkRow();
+  });
 
+  links.addEventListener("click",event=>{
     const removeButton=event.target.closest(".remove-link");
     if(!removeButton)return;
-
     event.preventDefault();
     const rows=links.querySelectorAll(".link-row");
     if(rows.length===1){
