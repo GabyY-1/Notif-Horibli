@@ -3,8 +3,6 @@ let allNotifications=[];
 let currentFilter="all";
 
 const labels={nouveaute:"Nouveauté",notification:"Notification",information:"Information"};
-const notificationButton=document.getElementById("enableNotifications");
-const notificationStatus=document.getElementById("notificationStatus");
 
 function formatDate(value){
   return new Intl.DateTimeFormat("fr-FR",{dateStyle:"medium",timeStyle:"short"}).format(new Date(value));
@@ -55,37 +53,16 @@ document.querySelectorAll(".filter").forEach(button=>button.addEventListener("cl
 
 load();
 
-function updateNotificationStatus(){
-  if(!notificationButton||!notificationStatus)return;
-  if(!("Notification" in window)){
-    notificationButton.disabled=true;
-    notificationStatus.textContent="Les notifications ne sont pas prises en charge par ce navigateur.";
-    return;
-  }
-  if(Notification.permission==="granted"){
-    notificationButton.textContent="Notifications activées";
-    notificationButton.disabled=true;
-    notificationStatus.textContent="Cet ordinateur peut recevoir les nouvelles annonces quand le site est ouvert.";
-  }else if(Notification.permission==="denied"){
-    notificationButton.textContent="Notifications bloquées";
-    notificationButton.disabled=true;
-    notificationStatus.textContent="Autorise les notifications dans les réglages du navigateur.";
-  }
+async function requestNotifications(){
+  if(!("Notification" in window)||Notification.permission!=="default")return;
+  try{
+    const permission=await Notification.requestPermission();
+    if(permission==="granted")new Notification("Notif Horibli",{body:"Les notifications sont activées sur cet ordinateur."});
+  }catch{}
 }
 
-async function enableNotifications(){
-  if(!("Notification" in window))return;
-  const permission=await Notification.requestPermission();
-  updateNotificationStatus();
-  if(permission==="granted"){
-    new Notification("Notif Horibli",{body:"Les notifications sont maintenant activées sur cet ordinateur."});
-  }
-}
-
-if(notificationButton){
-  notificationButton.addEventListener("click",enableNotifications);
-  updateNotificationStatus();
-}
+requestNotifications();
+window.addEventListener("click",requestNotifications,{once:true});
 
 supabaseClient.channel("notif-horibli-live")
   .on("postgres_changes",{event:"INSERT",schema:"public",table:"notifications",filter:"published=eq.true"},payload=>{
