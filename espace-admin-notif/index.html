@@ -44,8 +44,17 @@
           <option value="notification">Notification</option>
           <option value="information">Information</option>
         </select>
-        <textarea id="description" maxlength="5000" placeholder="Description" required></textarea>
-        <input id="link" type="url" placeholder="Lien (optionnel)">
+        <textarea id="description" maxlength="5000" placeholder="Description" required>
+
+</textarea>
+        <div id="links" class="links">
+          <div class="link-row">
+            <input class="link-label" placeholder="Nom du lien (optionnel)">
+            <input class="link-url" type="url" placeholder="https://..." required>
+            <button type="button" class="secondary remove-link">Retirer</button>
+          </div>
+        </div>
+        <button id="addLink" type="button" class="secondary">+ Ajouter un lien</button>
         <label class="check"><input id="important" type="checkbox"> Publication importante</label>
         <label class="check"><input id="published" type="checkbox" checked> Publier immédiatement</label>
         <button type="submit">Publier</button>
