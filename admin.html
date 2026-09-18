@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin — Notif Horibli</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="container admin-container">
+    <header class="header">
+      <div>
+        <span class="eyebrow">HORIBLI / ADMIN</span>
+        <h1>Gestion des notifications</h1>
+        <p>Publie et gère les contenus de Notif Horibli.</p>
+      </div>
+      <a class="admin-link" href="index.html">Voir le site</a>
+    </header>
+
+    <section id="loginPanel" class="panel">
+      <h2>Connexion</h2>
+      <p>Connecte-toi avec un compte Horibli autorisé.</p>
+      <form id="loginForm">
+        <input id="email" type="email" placeholder="Adresse e-mail" required>
+        <input id="password" type="password" placeholder="Mot de passe" required>
+        <button type="submit">Se connecter</button>
+      </form>
+      <div id="loginMessage" class="message"></div>
+    </section>
+
+    <section id="adminPanel" class="panel hidden">
+      <div class="panel-top">
+        <div>
+          <h2>Nouvelle publication</h2>
+          <p id="account"></p>
+        </div>
+        <button id="logout" class="secondary">Se déconnecter</button>
+      </div>
+
+      <form id="notificationForm">
+        <input id="title" maxlength="160" placeholder="Titre" required>
+        <select id="type">
+          <option value="nouveaute">Nouveauté</option>
+          <option value="notification">Notification</option>
+          <option value="information">Information</option>
+        </select>
+        <textarea id="description" maxlength="5000" placeholder="Description" required></textarea>
+        <input id="link" type="url" placeholder="Lien (optionnel)">
+        <label class="check"><input id="important" type="checkbox"> Publication importante</label>
+        <label class="check"><input id="published" type="checkbox" checked> Publier immédiatement</label>
+        <button type="submit">Publier</button>
+      </form>
+      <div id="adminMessage" class="message"></div>
+
+      <h2 class="list-title">Publications</h2>
+      <section id="adminNotifications" class="notifications"></section>
+    </section>
+  </main>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>
