@@ -14,7 +14,11 @@ function render(){
     notifications.innerHTML='<div class="state">Aucune publication pour le moment.</div>';
     return;
   }
-  notifications.innerHTML=list.map(item=>`
+  notifications.innerHTML=list.map(item=>{
+    const itemLinks=Array.isArray(item.links)&&item.links.length
+      ?item.links
+      :(item.link?[{label:"Ouvrir le lien",url:item.link}]:[]);
+    return `
     <article class="card ${item.important?"important":""}">
       <div class="card-top">
         <span class="badge">${labels[item.type]||"Information"}${item.important?" · Important":""}</span>
@@ -22,13 +26,15 @@ function render(){
       </div>
       <h2>${escapeHtml(item.title)}</h2>
       <p>${escapeHtml(item.description)}</p>
-      ${item.link?`<a class="card-link" href="${escapeAttr(item.link)}" target="_blank" rel="noopener">Ouvrir le lien</a>`:""}
-    </article>`).join("");
+      ${itemLinks.length?'<div class="card-links">'+itemLinks.map(link=>`<a class="card-link" href="${escapeAttr(link.url)}" target="_blank" rel="noopener">${escapeHtml(link.label||"Ouvrir le lien")}</a>`).join("")+"</div>":""}
+    </article>`;
+  }).join("");
 }
 
 function escapeHtml(value){
   return String(value).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
 }
+
 function escapeAttr(value){return escapeHtml(value)}
 
 async function load(){
