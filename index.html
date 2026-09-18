@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notif Horibli</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="container">
+    <header class="header">
+      <div>
+        <span class="eyebrow">HORIBLI</span>
+        <h1>Notifications & nouveautés</h1>
+        <p>Retrouve ici les dernières informations publiées par Horibli.</p>
+      </div>
+      <a class="admin-link" href="admin.html">Administration</a>
+    </header>
+
+    <div class="filters">
+      <button class="filter active" data-filter="all">Toutes</button>
+      <button class="filter" data-filter="nouveaute">Nouveautés</button>
+      <button class="filter" data-filter="notification">Notifications</button>
+      <button class="filter" data-filter="information">Infos</button>
+    </div>
+
+    <section id="notifications" class="notifications">
+      <div class="state">Chargement des notifications...</div>
+    </section>
+  </main>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
