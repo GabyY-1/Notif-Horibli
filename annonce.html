@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="logo.png">
+  <title>Annonce — Notif Horibli</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="container">
+    <header class="header">
+      <div>
+        <span class="eyebrow">HORIBLI</span>
+        <h1 id="title">Annonce</h1>
+        <p id="date"></p>
+      </div>
+      <a class="admin-link" href="index.html">Toutes les annonces</a>
+    </header>
+    <article id="content" class="card">
+      <div class="state">Chargement...</div>
+    </article>
+  </main>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+  <script>
+    const labels={nouveaute:"Nouveauté",notification:"Notification",information:"Information"};
+    const escapeHtml=value=>String(value).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
+    const escapeAttr=value=>escapeHtml(value);
+    const id=new URLSearchParams(location.search).get("id");
+    const content=document.getElementById("content");
+    if(!id){content.innerHTML='<div class="state">Annonce introuvable.</div>'}
+    else supabaseClient.from("notifications").select("*").eq("id",id).eq("published",true).single().then(({data,error})=>{
+      if(error||!data){content.innerHTML='<div class="state">Annonce introuvable.</div>';return}
+      document.title=data.title+" — Notif Horibli";
+      document.getElementById("title").textContent=data.title;
+      document.getElementById("date").textContent=new Intl.DateTimeFormat("fr-FR",{dateStyle:"full",timeStyle:"short"}).format(new Date(data.created_at));
+      const links=Array.isArray(data.links)&&data.links.length?data.links:(data.link?[{label:"Ouvrir le lien",url:data.link}]:[]);
+      content.innerHTML='<div class="card-top"><span class="badge">'+(labels[data.type]||"Information")+(data.important?" · Important":"")+'</span></div><p>'+escapeHtml(data.description)+'</p>'+(links.length?'<div class="card-links">'+links.map(link=>'<a class="card-link" href="'+escapeAttr(link.url)+'" target="_blank" rel="noopener">'+escapeHtml(link.label||"Ouvrir le lien")+'</a>').join("")+'</div>':"");
+    });
+  </script>
+</body>
+</html>
