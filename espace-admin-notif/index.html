@@ -60,12 +60,24 @@
       </form>
       <div id="adminMessage" class="message"></div>
 
+      <div class="admin-tools">
+        <input id="adminSearch" type="search" placeholder="Rechercher une publication...">
+        <select id="adminFilter">
+          <option value="all">Toutes les publications</option>
+          <option value="nouveaute">Nouveautés</option>
+          <option value="notification">Notifications</option>
+          <option value="information">Informations</option>
+          <option value="published">Publiées</option>
+          <option value="draft">Brouillons</option>
+          <option value="important">Importantes</option>
+        </select>
+      </div>
       <h2 class="list-title">Publications</h2>
       <section id="adminNotifications" class="notifications"></section>
     </section>
   </main>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="../config.js"></script>
-  <script src="../admin.js?v=3"></script>
+  <script src="../admin.js?v=4"></script>
 </body>
 </html>
