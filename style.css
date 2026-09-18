@@ -5,19 +5,19 @@ button,a{transition:.2s}
 button{border:1px solid #202020;border-radius:8px;padding:10px 15px;background:#202020;color:#fff;cursor:pointer}
 button:hover{opacity:.88}
 a{text-decoration:none;color:inherit}
-.container{width:min(1000px,calc(100% - 32px));margin:auto;padding:60px 0}
-.header{display:flex;justify-content:space-between;gap:24px;align-items:flex-end;margin-bottom:34px}
+.container{width:min(1000px,calc(100% - 32px));margin:auto;padding:72px 0}
+.header{display:flex;justify-content:space-between;gap:24px;align-items:flex-end;margin-bottom:44px}
 .eyebrow{font-size:12px;letter-spacing:2px;color:#a17c28}
 h1{font-size:40px;line-height:1.15;font-weight:400;margin:8px 0}
 h2{font-weight:400}
 .header p,.panel>p,.panel-top p{color:#777;margin-top:7px}
 .admin-link{border:1px solid #ddd7c8;background:#fffdf8;border-radius:8px;padding:10px 15px}
 .admin-link:hover{border-color:#b99a55;background:#fff}
-.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:30px}
 .filter{background:#fff;color:#202020;border:1px solid #dedbd3}
 .filter:hover{border-color:#b99a55;opacity:1}
 .filter.active{background:#202020;color:#fff;border-color:#202020}
-.notifications{display:grid;gap:14px}
+.notifications{display:grid;gap:20px}
 .card,.panel{background:#fff;border:1px solid #e3e0d8;border-radius:12px;padding:23px;box-shadow:0 5px 18px rgba(40,35,25,.04)}
 .card:hover{border-color:#d2c19c}
 .card-top{display:flex;justify-content:space-between;gap:15px;align-items:center;margin-bottom:12px}
@@ -61,4 +61,4 @@ h1{font-size:32px}
 .notification-button:hover{border-color:#b99a55;opacity:1}
 .notification-tools span{font-size:13px;color:#777}
 .card h2 a:hover{color:#a17c28}
-.edit-form{margin-top:18px}
+.edit-form{margin-top:18px}.admin-tools{display:grid;grid-template-columns:2fr 1fr;gap:12px;margin:26px 0 8px}@media(max-width:650px){.admin-tools{grid-template-columns:1fr}}
